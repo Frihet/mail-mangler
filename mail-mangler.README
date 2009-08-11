@@ -1,0 +1,35 @@
+mail-mangler.py
+
+Copyright 2009, Egil Möller, FreeCode AS <egil.moller@freecode.no>
+Licensed under the GPL, version 3
+
+This script mangles the content of incoming mail and resends them. It
+is intended as a filter for outgoing mail from e.g. RT. It should be
+called from /etc/aliases of a normal UNIX MTA such as postfix.
+
+
+Example usage:
+
+----{/etc/aliases}----
+vendor-headsup: |"/usr/local/bin/mail-mangler.py /etc/mail-mangler.vendor.config"
+board-headsup: |"/usr/local/bin/mail-mangler.py /etc/mail-mangler.board.config"
+----{/etc/aliases}----
+
+This will create two email aliases, vendor-headsup@localhost and
+board-headsup@localhost, that will mangle and resend mails according
+to two different config files.
+
+It can be usefull to create a "user" in RT for each of these to ease
+the usage. Create the users as usual and set their email adresses to
+one of the above. Make sure to set the password to some long random
+string. It will then be possible to add the aliases as CC on a ticket
+by simply writing the user name in the CC field of a ticket.
+
+
+Note: Make sure to run the command "newaliases" after making changes
+to this file
+
+Note: Make sure to specify a new "To" header in the config-files, or
+you will be creating a mail loop!
+
+
